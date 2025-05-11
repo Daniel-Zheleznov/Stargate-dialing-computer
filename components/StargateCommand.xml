@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="StargateCommand" extends="Scene" >
+    <script type="text/brightscript" uri="pkg:/components/StargateCommand.brs"/>
+    
+    <children>
+        <Group id="LeftGroup" translation="[0.0, 0.0]" scale="[0.2, 1]">
+            <!-- Known locations, Chevron status -->
+            <Group id="KnownLocations" translation="[0.0, 0.0]" scale="[1, 0.5]">
+            </Group>
+
+            <Group id="chevron-status">
+                
+            </Group>
+        </Group>
+
+        <Group id="center-group">
+            <!-- Stargate, SGC logo, Gate Status -->
+        </Group>
+
+        <Group id="right-group">
+            <!-- Date/Time, Cheveron value -->
+        </Group>
+
+    </children>
+</component>
