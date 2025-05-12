@@ -1,2 +1,4 @@
 @echo off
 7z a -tzip my_code.zip .
+
+curl --silent -w "Status code: %%{http_code}\n" --digest -u rokudev:%ROKU_PASS% -F "mysubmit=Install" -F "archive=@./my_code.zip" "http://%ROKU_ADDR%/plugin_install"
