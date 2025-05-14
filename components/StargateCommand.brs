@@ -46,9 +46,11 @@ sub init()
     m.top.BackgroundURI = ""
     
     m.LeftGroup = m.top.FindNode("LeftGroup")
+    m.CenterGroup = m.top.FindNode("CenterGroup")
     m.FavoriteAddresses = m.top.FindNode("FavoriteAddresses")
 
     RenderFavoriteAddresses(Resolution, m.FavoriteAddresses)
+    RenderSGCLogo(Resolution, m.CenterGroup)
 
 end sub
 
@@ -215,5 +217,188 @@ sub RenderFavoriteAddresses(Resolution as Object, Node as Object)
     print "End of FavoriteAddresses"
 
     ' MAYBE {Daniel Zheleznov} {05/12/2025} Multipage faviorite worlds
+end sub
+
+sub ChangeSGCLogo()
+    Symbols = [        
+        "pkg:/images/SGC-Logo/logo00001.png",
+        "pkg:/images/SGC-Logo/logo00002.png",
+        "pkg:/images/SGC-Logo/logo00003.png",
+        "pkg:/images/SGC-Logo/logo00004.png",
+        "pkg:/images/SGC-Logo/logo00005.png",
+        "pkg:/images/SGC-Logo/logo00006.png",
+        "pkg:/images/SGC-Logo/logo00007.png",
+        "pkg:/images/SGC-Logo/logo00008.png",
+        "pkg:/images/SGC-Logo/logo00009.png",
+        "pkg:/images/SGC-Logo/logo00010.png",
+        "pkg:/images/SGC-Logo/logo00011.png",
+        "pkg:/images/SGC-Logo/logo00012.png",
+        "pkg:/images/SGC-Logo/logo00013.png",
+        "pkg:/images/SGC-Logo/logo00014.png",
+        "pkg:/images/SGC-Logo/logo00015.png",
+        "pkg:/images/SGC-Logo/logo00016.png",
+        "pkg:/images/SGC-Logo/logo00017.png",
+        "pkg:/images/SGC-Logo/logo00018.png",
+        "pkg:/images/SGC-Logo/logo00019.png",
+        "pkg:/images/SGC-Logo/logo00020.png",
+        "pkg:/images/SGC-Logo/logo00021.png",
+        "pkg:/images/SGC-Logo/logo00022.png",
+        "pkg:/images/SGC-Logo/logo00023.png",
+        "pkg:/images/SGC-Logo/logo00024.png",
+        "pkg:/images/SGC-Logo/logo00025.png",
+        "pkg:/images/SGC-Logo/logo00026.png",
+        "pkg:/images/SGC-Logo/logo00027.png",
+        "pkg:/images/SGC-Logo/logo00028.png",
+        "pkg:/images/SGC-Logo/logo00029.png",
+        "pkg:/images/SGC-Logo/logo00030.png",
+        "pkg:/images/SGC-Logo/logo00031.png",
+        "pkg:/images/SGC-Logo/logo00032.png",
+        "pkg:/images/SGC-Logo/logo00033.png",
+        "pkg:/images/SGC-Logo/logo00034.png",
+        "pkg:/images/SGC-Logo/logo00035.png",
+        "pkg:/images/SGC-Logo/logo00036.png",
+        "pkg:/images/SGC-Logo/logo00037.png",
+        "pkg:/images/SGC-Logo/logo00038.png",
+        "pkg:/images/SGC-Logo/logo00039.png",
+        "pkg:/images/SGC-Logo/logo00040.png",
+        "pkg:/images/SGC-Logo/logo00041.png",
+        "pkg:/images/SGC-Logo/logo00042.png",
+        "pkg:/images/SGC-Logo/logo00043.png",
+        "pkg:/images/SGC-Logo/logo00044.png",
+        "pkg:/images/SGC-Logo/logo00045.png",
+        "pkg:/images/SGC-Logo/logo00046.png",
+        "pkg:/images/SGC-Logo/logo00047.png",
+        "pkg:/images/SGC-Logo/logo00048.png",
+        "pkg:/images/SGC-Logo/logo00049.png",
+        "pkg:/images/SGC-Logo/logo00050.png",
+        "pkg:/images/SGC-Logo/logo00051.png",
+        "pkg:/images/SGC-Logo/logo00052.png",
+        "pkg:/images/SGC-Logo/logo00053.png",
+        "pkg:/images/SGC-Logo/logo00054.png",
+        "pkg:/images/SGC-Logo/logo00055.png",
+        "pkg:/images/SGC-Logo/logo00056.png",
+        "pkg:/images/SGC-Logo/logo00057.png",
+        "pkg:/images/SGC-Logo/logo00058.png",
+        "pkg:/images/SGC-Logo/logo00059.png",
+        "pkg:/images/SGC-Logo/logo00060.png"
+    ]
+
+    m.SGCLogoPosterIndex += 1
+    m.SGCLogoPosterIndex = m.SGCLogoPosterIndex mod Symbols.Count()
+    
+    if m.SGCPosterMode = 1 then
+        m.SGCLogoPoster1.visible = false
+        m.SGCLogoPoster2.uri = Symbols[m.SGCLogoPosterIndex]
+        m.SGCLogoPoster1.uri = Symbols[(m.SGCLogoPosterIndex+1) mod Symbols.Count()]
+        m.SGCLogoPoster2.visible = true
+        m.SGCPosterMode = 2
+    else
+        m.SGCLogoPoster2.visible = false
+        m.SGCLogoPoster1.uri = Symbols[m.SGCLogoPosterIndex]
+        m.SGCLogoPoster2.uri = Symbols[(m.SGCLogoPosterIndex+1) mod Symbols.Count()]
+        m.SGCLogoPoster1.visible = true
+        m.SGCPosterMode = 1       
+    end if
+    
+    print m.SGCLogoPoster1.visible; " 2: "; m.SGCLogoPoster2.visible
+end sub
+
+sub RenderSGCLogo(Resolution as Object, Node as Object)
+    Symbols = [        
+        "pkg:/images/SGC-Logo/logo00001.png",
+        "pkg:/images/SGC-Logo/logo00002.png",
+        "pkg:/images/SGC-Logo/logo00003.png",
+        "pkg:/images/SGC-Logo/logo00004.png",
+        "pkg:/images/SGC-Logo/logo00005.png",
+        "pkg:/images/SGC-Logo/logo00006.png",
+        "pkg:/images/SGC-Logo/logo00007.png",
+        "pkg:/images/SGC-Logo/logo00008.png",
+        "pkg:/images/SGC-Logo/logo00009.png",
+        "pkg:/images/SGC-Logo/logo00010.png",
+        "pkg:/images/SGC-Logo/logo00011.png",
+        "pkg:/images/SGC-Logo/logo00012.png",
+        "pkg:/images/SGC-Logo/logo00013.png",
+        "pkg:/images/SGC-Logo/logo00014.png",
+        "pkg:/images/SGC-Logo/logo00015.png",
+        "pkg:/images/SGC-Logo/logo00016.png",
+        "pkg:/images/SGC-Logo/logo00017.png",
+        "pkg:/images/SGC-Logo/logo00018.png",
+        "pkg:/images/SGC-Logo/logo00019.png",
+        "pkg:/images/SGC-Logo/logo00020.png",
+        "pkg:/images/SGC-Logo/logo00021.png",
+        "pkg:/images/SGC-Logo/logo00022.png",
+        "pkg:/images/SGC-Logo/logo00023.png",
+        "pkg:/images/SGC-Logo/logo00024.png",
+        "pkg:/images/SGC-Logo/logo00025.png",
+        "pkg:/images/SGC-Logo/logo00026.png",
+        "pkg:/images/SGC-Logo/logo00027.png",
+        "pkg:/images/SGC-Logo/logo00028.png",
+        "pkg:/images/SGC-Logo/logo00029.png",
+        "pkg:/images/SGC-Logo/logo00030.png",
+        "pkg:/images/SGC-Logo/logo00031.png",
+        "pkg:/images/SGC-Logo/logo00032.png",
+        "pkg:/images/SGC-Logo/logo00033.png",
+        "pkg:/images/SGC-Logo/logo00034.png",
+        "pkg:/images/SGC-Logo/logo00035.png",
+        "pkg:/images/SGC-Logo/logo00036.png",
+        "pkg:/images/SGC-Logo/logo00037.png",
+        "pkg:/images/SGC-Logo/logo00038.png",
+        "pkg:/images/SGC-Logo/logo00039.png",
+        "pkg:/images/SGC-Logo/logo00040.png",
+        "pkg:/images/SGC-Logo/logo00041.png",
+        "pkg:/images/SGC-Logo/logo00042.png",
+        "pkg:/images/SGC-Logo/logo00043.png",
+        "pkg:/images/SGC-Logo/logo00044.png",
+        "pkg:/images/SGC-Logo/logo00045.png",
+        "pkg:/images/SGC-Logo/logo00046.png",
+        "pkg:/images/SGC-Logo/logo00047.png",
+        "pkg:/images/SGC-Logo/logo00048.png",
+        "pkg:/images/SGC-Logo/logo00049.png",
+        "pkg:/images/SGC-Logo/logo00050.png",
+        "pkg:/images/SGC-Logo/logo00051.png",
+        "pkg:/images/SGC-Logo/logo00052.png",
+        "pkg:/images/SGC-Logo/logo00053.png",
+        "pkg:/images/SGC-Logo/logo00054.png",
+        "pkg:/images/SGC-Logo/logo00055.png",
+        "pkg:/images/SGC-Logo/logo00056.png",
+        "pkg:/images/SGC-Logo/logo00057.png",
+        "pkg:/images/SGC-Logo/logo00058.png",
+        "pkg:/images/SGC-Logo/logo00059.png",
+        "pkg:/images/SGC-Logo/logo00060.png"
+    ]
+
+    SGCLogoWidth = (Resolution.width-12) * (3/5)
+    SGCLogoHeight = (Resolution.height-12) ' TODO {Daniel Zheleznov} [5/14/2025] Fix this to fit the Status
+
+    print "[StargateCommand] Prerendering SGCLogo"
+    
+    print "[StargateCommand] Rendering SGCLogo"
+
+    timer = m.top.findNode("SGCLogoTimer")
+    timer.ObserveField("fire", "ChangeSGCLogo")
+
+    m.SGCPosterMode = 1
+    m.SGCLogoPosterIndex = 0
+
+    m.SGCLogoPoster1 = Node.CreateChild("Poster")
+    m.SGCLogoPoster1.width = SGCLogoWidth
+    m.SGCLogoPoster1.height = SGCLogoHeight
+    m.SGCLogoPoster1.uri = Symbols[m.SGCLogoPosterIndex]
+    m.SGCLogoPoster1.translation = [
+        ((Resolution.width) * (1/5)) + 6,
+        6
+    ]
+    'm.SGCLogoPoster1.ObserveField("loadStatus", "OnPosterLoaded")
+    
+    m.SGCLogoPoster2 = Node.CreateChild("Poster")
+    m.SGCLogoPoster2.visible = false
+    m.SGCLogoPoster2.width = SGCLogoWidth
+    m.SGCLogoPoster2.height = SGCLogoHeight
+    m.SGCLogoPoster2.uri = Symbols[m.SGCLogoPosterIndex + 1]
+    m.SGCLogoPoster2.translation = [
+        ((Resolution.width) * (1/5)) + 6,
+        6
+    ]
+    'm.SGCLogoPoster2.ObserveField("loadStatus", "OnPosterLoaded")
 
 end sub
