@@ -3,6 +3,8 @@
     <script type="text/brightscript" uri="pkg:/components/StargateCommand.brs"/>
     
     <children>
+        <Timer id="ClockTimer" repeat="true" duration="1" control="start"/>
+
         <Group id="LeftGroup" translation="[0.0, 0.0]">
             <!-- Known locations, Chevron status -->
             <Group id="FavoriteAddresses" translation="[0.0, 0.0]">
@@ -18,7 +20,7 @@
             <!-- Stargate, SGC logo, Gate Status -->
         </Group>
 
-        <Group id="right-group">
+        <Group id="RightGroup">
             <!-- Date/Time, Cheveron value -->
         </Group>
 
