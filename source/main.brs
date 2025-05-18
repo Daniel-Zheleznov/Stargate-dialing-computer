@@ -1,18 +1,32 @@
 sub RunScreenSaver()
-    screen = CreateObject("roSGScreen") 'Creates screen to display screensaver
-    port = CreateObject("roMessagePort") 'Port to listen to events on screen
-    screen.SetMessagePort(port)
+    Screen = CreateObject("roScreen", false, 1280, 720)
+    Port = CreateObject("roMessagePort")
+    Screen.SetMessagePort(Port)
 
-    scene = screen.CreateScene("StargateCommand") 'Creates scene to display on screen. Scene name (AnimatedScreensaver) must match ID of XML Scene Component
-    screen.Show()
+    Settings = {
+        Padding: 15,
+        InnerPadding: 5
+    }
 
-    while(true) 'Uses message port to listen if channel is closed
-        msg = Wait(0, port)
-        if (msg <> invalid)
-            msgType = type(msg)
-            if msgType = "roSGScreenEvent"
-                if msg.isScreenClosed() then return
-            end if
-        end if
-    end while
-end sub
+    ' Background
+    ' Screen.Finish()
+    
+    Running = true
+    while(Running)
+        
+        ' Draw
+        Screen.Clear(&h000000FF)
+        Draw_FavoriteAddr(Screen, Settings)
+        Draw_DateTime(Screen, Settings)
+        Screen.Finish()
+
+        ' Message loop
+        Message = Port.GetMessage()
+        if (Message <> invalid)
+            MessageType = type(Message)
+            if MessageType = "roUniversalControlEvent" then
+                Running = false
+            endif
+        endif
+    endwhile
+endsub
