@@ -1,3 +1,10 @@
+sub Initalize_FavoriteAddr(Settings as object)
+    for z=1 to 39
+        pic = CreateObject("roBitmap", "pkg:/images/Glyphs/glyph"+z.ToStr()+".png")
+        Settings.FavoriteAddr_Glyphs[z] = pic
+    endfor
+endsub
+
 sub Draw_FavoriteAddr(Screen as object, Settings as object)
     Fonts = CreateObject("roFontRegistry")
     UsableFont = Fonts.GetDefaultFont(28, false, false)
@@ -28,7 +35,6 @@ sub Draw_FavoriteAddr(Screen as object, Settings as object)
         { Name: "P4X-639" , Addr: [3, 8, 27, 11, 21, 15],  Active: true  },
     ]
 
-    Width  -= Settings.InnerPadding
     Height -= Settings.InnerPadding * 2
 
     for i=0 to Locations.Count()-1
@@ -45,7 +51,7 @@ sub Draw_FavoriteAddr(Screen as object, Settings as object)
         for z=0 to Locations[i].Addr.Count()-1
             size = 16
 
-            pic = CreateObject("roBitmap", "pkg:/images/glyph"+(Locations[i].Addr[z] + 1).ToStr()+".png")
+            pic = Settings.FavoriteAddr_Glyphs[Locations[i].Addr[z]]
             scale = size/pic.GetWidth()
 
             ZX = Width - (((Locations[i].Addr.Count() - 1) - z) * (size + Settings.InnerPadding))

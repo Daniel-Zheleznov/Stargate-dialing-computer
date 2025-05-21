@@ -24,17 +24,22 @@ sub Draw_DateTime(Screen as object, Settings as object)
     WeekTextX = Screen.GetWidth() - TotalPadding - Settings.InnerPadding - UsableFont.GetOneLineWidth(WeekText, Screen.GetWidth())
     WeekTextY = MonthTextY + Settings.InnerPadding + UsableFont.GetOneLineHeight()
     
-    Height = WeekTextY + Settings.InnerPadding + UsableFont.GetOneLineHeight()
+    IDLEText = "Idle: " + Int(Settings.DateTime_Timer.TotalSeconds() / 60).ToStr() + "(m)"
+    IDLETextX = Screen.GetWidth() - TotalPadding - Settings.InnerPadding - UsableFont.GetOneLineWidth(IDLEText, Screen.GetWidth())
+    IDLTextY = WeekTextY + Settings.InnerPadding + UsableFont.GetOneLineHeight()
+
+    Height = IDLTextY + UsableFont.GetOneLineHeight()
 
     OutsideX = Screen.GetWidth() - Width - OutsidePadding
     OutsideY = Settings.Padding
     Screen.DrawRect(OutsideX, OutsideY, Width, Height, &h5DC6CDFF)
 
-    BabyX = (Screen.GetWidth() - Width) - Settings.InnerPadding
+    BabyX = (Screen.GetWidth() - Width) - (Settings.InnerPadding * 2)
     BabyY = TotalPadding
-    Screen.DrawRect(BabyX, BabyY, Width - OutsidePadding, Height - OutsidePadding, &h000000FF)
+    Screen.DrawRect(BabyX, BabyY, Width - (Settings.InnerPadding * 2), Height - (Settings.InnerPadding * 2), &h000000FF)
 
     Screen.DrawText(TimeText, TimeTextX, TimeTextY, &hF5F5F5FF, BigUsableFont)
     Screen.DrawText(MonthText, MonthTextX, MonthTextY, &hF5F5F5FF, UsableFont)
     Screen.DrawText(WeekText, WeekTextX, WeekTextY, &hF5F5F5FF, UsableFont)
+    Screen.DrawText(IDLEText, IDLETextX, IDLTextY, &hF5F5F5FF, UsableFont)
 endsub
