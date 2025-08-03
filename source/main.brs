@@ -21,18 +21,12 @@ sub RunScreenSaver()
     Initalize_SGCLogo(Settings)
     ' Background
     ' Screen.Finish()
-    
-    Time = CreateObject("roDateTime")
-    Time.Mark()
 
     Running = true
     while(Running)
         
-        NewTime = CreateObject("roDateTime")
-        NewTime.Mark()
-
-        Settings.Deltatime = NewTime.GetMilliseconds() - Time.GetMilliseconds()
-        Time = NewTime
+        Time = CreateObject("roTimespan")
+        Time.Mark()
 
         ' Draw
         Screen.Clear(&h000000FF)
@@ -41,8 +35,12 @@ sub RunScreenSaver()
         Draw_SGCLogo(Screen, Settings)
 
         Screen.SwapBuffers()
-        Sleep(17) ' 60fps
 
+        Settings.Deltatime = (1000 / 30) - Time.TotalMilliseconds()
+        if Settings.Deltatime > 0 then
+            Sleep(Settings.Deltatime) ' 60fps
+        endif
+        
         ' Message loop
         Message = Port.GetMessage()
         if (Message <> invalid)
@@ -53,3 +51,5 @@ sub RunScreenSaver()
         endif
     endwhile
 endsub
+
+

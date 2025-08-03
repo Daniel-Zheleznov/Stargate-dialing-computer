@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg8284"
+   sodipodi:version="0.32"
+   inkscape:version="0.44.1"
+   width="48"
+   height="48"
+   version="1.0"
+   sodipodi:docbase="E:\Bryan\Temp\SG Glyphs"
+   sodipodi:docname="StargateGlyph34.svg">
+  <metadata
+     id="metadata8289">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs8287" />
+  <sodipodi:namedview
+     inkscape:window-height="721"
+     inkscape:window-width="1024"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     guidetolerance="10.0"
+     gridtolerance="10.0"
+     objecttolerance="10.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     inkscape:zoom="10.958333"
+     inkscape:cx="24"
+     inkscape:cy="24"
+     inkscape:window-x="-4"
+     inkscape:window-y="-4"
+     inkscape:current-layer="svg8284" />
+  <path
+     style="fill:none;fill-rule:evenodd;stroke:whitesmoke;stroke-width:2.5;stroke-linecap:square;stroke-linejoin:bevel;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+     d="M 26.920152,13.323194 L 16.060837,2.8288973 L 8.9429658,3.5589354 L 7.8479087,7.8479087 L 12.593156,11.771863 L 14.509506,9.581749 L 15.513308,3.8326996"
+     id="path8293"
+     sodipodi:nodetypes="ccccccc" />
+  <path
+     style="fill:whitesmoke;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     d="M 26.920153,13.140684 L 26.828897,17.064638 L 30.479088,12.86692 L 26.920153,13.140684 z "
+     id="path9180"
+     sodipodi:nodetypes="cccc" />
+  <path
+     style="fill:none;fill-rule:evenodd;stroke:whitesmoke;stroke-width:2.5;stroke-linecap:square;stroke-linejoin:bevel;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+     d="M 38.053232,37.688213 L 31.30038,37.505703 L 28.380228,29.749049 L 26.281369,29.019011 L 22.996198,31.574144 L 20.806084,26.646388"
+     id="path10067" />
+  <path
+     style="fill:none;fill-rule:evenodd;stroke:whitesmoke;stroke-width:2.5;stroke-linecap:square;stroke-linejoin:bevel;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+     d="M 18.61597,24.273764 L 18.61597,21.444867 L 15.330798,19.802281 L 13.414449,21.627376 L 16.060837,24.18251 L 18.61597,24.273764 z "
+     id="path10954" />
+</svg>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg11898"
+   sodipodi:version="0.32"
+   inkscape:version="0.44.1"
+   width="48"
+   height="48"
+   version="1.0"
+   sodipodi:docbase="E:\Bryan\Temp\SG Glyphs"
+   sodipodi:docname="StargateGlyph16.svg">
+  <metadata
+     id="metadata11903">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs11901" />
+  <sodipodi:namedview
+     inkscape:window-height="721"
+     inkscape:window-width="1024"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     guidetolerance="10.0"
+     gridtolerance="10.0"
+     objecttolerance="10.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     inkscape:zoom="10.958333"
+     inkscape:cx="24"
+     inkscape:cy="24"
+     inkscape:window-x="-4"
+     inkscape:window-y="-4"
+     inkscape:current-layer="svg11898" />
+  <path
+     style="fill:none;fill-rule:evenodd;stroke:whitesmoke;stroke-width:2.5;stroke-linecap:square;stroke-linejoin:bevel;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+     d="M 32.030418,30.844106 L 32.030418,34.859316 L 22.539924,40.790875 L 11.863118,34.494297 L 10.220532,22.26616 L 14.144487,12.501901 L 19.163498,7.4828897 L 21.809886,7.4828897 L 27.558935,17.977186 L 27.558935,24.547529 L 32.030418,30.844106 z "
+     id="path11909" />
+  <path
+     style="fill:none;fill-rule:evenodd;stroke:whitesmoke;stroke-width:2.5;stroke-linecap:square;stroke-linejoin:bevel;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+     d="M 13.04943,33.490494 L 31.117871,32.212928"
+     id="path12796" />
+</svg>

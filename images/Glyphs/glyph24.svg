@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg1920"
+   sodipodi:version="0.32"
+   inkscape:version="0.44.1"
+   width="48"
+   height="48"
+   version="1.0"
+   sodipodi:docbase="E:\Bryan\Temp\SG Glyphs"
+   sodipodi:docname="StargateGlyph04.svg">
+  <metadata
+     id="metadata1925">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs1923" />
+  <sodipodi:namedview
+     inkscape:window-height="573"
+     inkscape:window-width="853"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     guidetolerance="10.0"
+     gridtolerance="10.0"
+     objecttolerance="10.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     inkscape:zoom="7.875"
+     inkscape:cx="24"
+     inkscape:cy="24"
+     inkscape:window-x="44"
+     inkscape:window-y="44"
+     inkscape:current-layer="svg1920" />
+  <path
+     style="fill:none;fill-rule:evenodd;stroke:whitesmoke;stroke-width:2.5;stroke-linecap:square;stroke-linejoin:bevel;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+     d="M 30.095238,17.904762 L 19.68254,11.555556"
+     id="path1929" />
+  <path
+     style="fill:none;fill-rule:evenodd;stroke:whitesmoke;stroke-width:2.5;stroke-linecap:square;stroke-linejoin:bevel;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+     d="M 22.349206,13.460317 L 16.507937,30.222222 L 5.2063492,33.777778 L 16.253968,41.396825 L 16.507937,30.349206 L 26.539683,15.746031"
+     id="path1931"
+     sodipodi:nodetypes="cccccc" />
+  <path
+     style="fill:none;fill-rule:evenodd;stroke:whitesmoke;stroke-width:2.5;stroke-linecap:square;stroke-linejoin:bevel;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+     d="M 22.095238,3.6825397 L 38.47619,12.952381"
+     id="path1933" />
+</svg>
