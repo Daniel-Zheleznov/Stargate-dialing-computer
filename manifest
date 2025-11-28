@@ -1,6 +1,5 @@
 # Copyright 2025 Daniel Zheleznov
 screensaver_title=Stargate Command
 major_version=0
-minor_version=1
-build_version=2
-ui_resolutions=FHD
+minor_version=2
+build_version=0

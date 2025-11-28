@@ -5,6 +5,8 @@ sub Initalize_SGCLogo(Settings as object)
         Settings.SGCLogo_Pics[i-1] = Bitmap
     endfor
 
+    Settings.SGCLogo_Velocity = [10, 10]
+    Settings.SGCLogo_Position = [0, 0]
 endsub
 
 sub Draw_SGCLogo(Screen as object, Settings as object)
@@ -14,10 +16,18 @@ sub Draw_SGCLogo(Screen as object, Settings as object)
     pic = Settings.SGCLogo_Pics[Settings.SGCLogo_Pic]
 
     if pic <> invalid then
-        X  = Screen.GetWidth()/2 - pic.GetWidth()/2
-        Y  = Screen.GetHeight()/2 - pic.GetHeight()/2
+        Settings.SGCLogo_Position[0] += Settings.SGCLogo_Velocity[0]
+        Settings.SGCLogo_Position[1] += Settings.SGCLogo_Velocity[1]
 
-        Screen.DrawObject(X, Y, pic)
+        if Settings.SGCLogo_Position[0] + pic.GetWidth() >= Screen.GetWidth() or Settings.SGCLogo_Position[0] <= 0 then
+            Settings.SGCLogo_Velocity[0] = -Settings.SGCLogo_Velocity[0]
+        endif
+        
+        if Settings.SGCLogo_Position[1] + pic.GetHeight() >= Screen.GetHeight() or Settings.SGCLogo_Position[1] <= 0  then
+            Settings.SGCLogo_Velocity[1] = -Settings.SGCLogo_Velocity[1]
+        endif
+
+        Screen.DrawObject(Settings.SGCLogo_Position[0], Settings.SGCLogo_Position[1], pic)
 
     endif
 

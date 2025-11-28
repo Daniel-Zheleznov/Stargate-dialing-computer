@@ -1,28 +1,29 @@
-sub Initalize_FavoriteAddr(Settings as object)
+sub Initalize_FavoriteAddr()
+    m.FavoriteAddr_Glyphs = CreateObject("roArray", 41, false)
     for z=1 to 39
         pic = CreateObject("roBitmap", "pkg:/images/Glyphs/glyph"+z.ToStr()+".png")
-        Settings.FavoriteAddr_Glyphs[z] = pic
-    endfor
-endsub
+        m.FavoriteAddr_Glyphs[z] = pic
+    end for
+end sub
 
-sub Draw_FavoriteAddr(Screen as object, Settings as object)
+sub Draw_FavoriteAddr()
     Fonts = CreateObject("roFontRegistry")
     UsableFont = Fonts.GetDefaultFont(28, false, false)
 
-    OutsidePadding = Settings.Padding
-    TotalPadding = Settings.Padding + Settings.InnerPadding
+    OutsidePadding = m.state.general.opad
+    TotalPadding = m.state.general.opad + m.state.general.ipad
 
-    Width  = (Screen.GetWidth() - OutsidePadding - OutsidePadding - OutsidePadding - OutsidePadding)/5
-    Height = (Screen.GetHeight() - OutsidePadding - OutsidePadding - OutsidePadding)/2
+    Width  = (m.state.screen.GetWidth() - OutsidePadding - OutsidePadding - OutsidePadding - OutsidePadding)/5
+    Height = (m.state.screen.GetHeight() - OutsidePadding - OutsidePadding - OutsidePadding)/2
 
-    Screen.DrawRect(OutsidePadding, Settings.Padding, Width, Height, &h5DC6CDFF)
+    m.state.screen.DrawRect(OutsidePadding, m.state.general.opad, Width, Height, &h5DC6CDFF)
 
-    Width  -= Settings.InnerPadding * 2
-    Height -= Settings.InnerPadding * 2
-    Screen.DrawRect(TotalPadding, TotalPadding, Width, Height, &h000000FF)
+    Width  -= m.state.general.ipad * 2
+    Height -= m.state.general.ipad * 2
+    m.state.screen.DrawRect(TotalPadding, TotalPadding, Width, Height, &h000000FF)
 
-    X = TotalPadding + Settings.InnerPadding
-    Y = TotalPadding + Settings.InnerPadding
+    X = TotalPadding + m.state.general.ipad
+    Y = TotalPadding + m.state.general.ipad
 
     Locations = [
         { Name: "Abydos"  , Addr: [26, 6, 14, 31, 11, 29], Active: false },
@@ -35,7 +36,7 @@ sub Draw_FavoriteAddr(Screen as object, Settings as object)
         { Name: "P4X-639" , Addr: [3, 8, 27, 11, 21, 15],  Active: true  },
     ]
 
-    Height -= Settings.InnerPadding * 2
+    Height -= m.state.general.ipad * 2
 
     for i=0 to Locations.Count()-1
         Color = &hF5F5F5FF
@@ -45,20 +46,20 @@ sub Draw_FavoriteAddr(Screen as object, Settings as object)
             Color = &hFF0000FF
         endif
 
-        Screen.DrawText(Locations[i].Name, X, Y, Color, UsableFont)
+        m.state.screen.DrawText(Locations[i].Name, X, Y, Color, UsableFont)
         
         ' Draw glphys backwards
         for z=0 to Locations[i].Addr.Count()-1
             size = 16
 
-            pic = Settings.FavoriteAddr_Glyphs[Locations[i].Addr[z]]
+            pic = m.FavoriteAddr_Glyphs[Locations[i].Addr[z]]
             scale = size/pic.GetWidth()
 
-            ZX = Width - (((Locations[i].Addr.Count() - 1) - z) * (size + Settings.InnerPadding))
-            Screen.DrawScaledObject(ZX, Y + (size/2), scale, scale, pic)
+            ZX = Width - (((Locations[i].Addr.Count() - 1) - z) * (size))
+            m.state.screen.DrawScaledObject(ZX, Y + (size/2), scale, scale, pic)
         endfor
 
-        Y += UsableFont.GetOneLineHeight() + Settings.InnerPadding
+        Y += UsableFont.GetOneLineHeight() + m.state.general.ipad
     endfor
 
 

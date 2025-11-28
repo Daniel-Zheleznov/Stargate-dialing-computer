@@ -1,55 +1,63 @@
 sub RunScreenSaver()
-    Screen = CreateObject("roScreen", true, 1280, 720)
-    Port = CreateObject("roMessagePort")
-    Screen.SetMessagePort(Port)
+    m.state = LoadState()
+    LoadPlugins()
+    
+    m.state.clock = CreateObject("roTimespan")
+    m.state.clock.Mark()
 
-    Settings = {
-        Padding: 15,
-        InnerPadding: 5,
-        Deltatime: 0,
+    m.state.screen = CreateObject("roScreen", true, m.state.general.render_resolution_width, m.state.general.render_resolution_height)
+    Log("Screensaver", "Screen created")
+    Log("Screensaver", "State loaded")
 
-        FavoriteAddr_Glyphs: CreateObject("roArray", 40, false),
-        DateTime_Timer: 0,
-        SGCLogo_Pics: CreateObject("roArray", 10, true),
-        SGCLogo_Pic: -1
-    }
+    port = CreateObject("roMessagePort")
+    Log("Screensaver", "Port created")
 
-    Settings.DateTime_Timer = CreateObject("roTimespan")
-    Settings.DateTime_Timer.Mark()
+    
 
-    Initalize_FavoriteAddr(Settings)
-    Initalize_SGCLogo(Settings)
-    ' Background
-    ' Screen.Finish()
+    running = true
+    while(running)
+        m.state.screen.Clear(&h000000FF)
 
-    Running = true
-    while(Running)
-        
-        Time = CreateObject("roTimespan")
-        Time.Mark()
+        ' Code goes here
+        RSGCDatetime_Draw()
+        RSGCTerminal_Draw()
 
-        ' Draw
-        Screen.Clear(&h000000FF)
-        Draw_FavoriteAddr(Screen, Settings)
-        Draw_DateTime(Screen, Settings)
-        Draw_SGCLogo(Screen, Settings)
+        m.state.screen.SwapBuffers()
 
-        Screen.SwapBuffers()
-
-        Settings.Deltatime = (1000 / 30) - Time.TotalMilliseconds()
-        if Settings.Deltatime > 0 then
-            Sleep(Settings.Deltatime) ' 60fps
-        endif
-        
-        ' Message loop
-        Message = Port.GetMessage()
-        if (Message <> invalid)
-            MessageType = type(Message)
-            if MessageType = "roUniversalControlEvent" then
-                Running = false
+        message = port.GetMessage()        
+        if message <> invalid
+            messageType = type(message)
+            if messageType = "roUniversalControlEvent" then
+                running = false
             endif
-        endif
+        endif    
     endwhile
-endsub
+end sub
 
 
+sub RunScreenSaverSettings()
+    screen = CreateObject("roSGScreen")
+    print "[RSGC | ScreensaverSettings] Screen created"
+    
+    port = CreateObject("roMessagePort")
+    print "[RSGC | ScreensaverSettings] Port created"
+
+    screen.SetMessagePort(port)
+
+    scene = screen.CreateScene("SettingsScene")
+    print "[RSGC | ScreensaverSettings] Scene created"
+
+    screen.show()
+
+    running = true
+    while(running)
+        message = port.GetMessage()
+        
+        if message <> invalid
+            messageType = type(message)
+            if messageType = "roUniversalControlEvent" then
+                running = false
+            endif
+        endif    
+    endwhile
+end sub
