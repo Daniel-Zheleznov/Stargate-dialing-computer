@@ -64,11 +64,11 @@ function onFocused_sectionList(value)
     elseif item = 1 then
         sgcStatic = sectionInfoContent.createChild("ContentNode")
         sgcStatic.title = "Static"
-        sgcStatic.description = "Should the SGC Logo move?"
+        sgcStatic.description = "Should the SGC RSGC_Logo move?"
 
         sgcRotate = sectionInfoContent.createChild("ContentNode")
         sgcRotate.title = "Rotate"
-        sgcRotate.description = "Should the SGC Logo rotate?"
+        sgcRotate.description = "Should the SGC RSGC_Logo rotate?"
     elseif item = 2 then
         consoleInterval = sectionInfoContent.createChild("ContentNode")
         consoleInterval.title = "Interval"
