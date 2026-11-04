@@ -9,17 +9,17 @@ settings = {
     "background":   "#05080D",
     "border":       "#0E2A35",
 
-    "console-font": pygame.font.SysFont("arial", 35),
-    "console-c":    "#FF2E60", # command
+    "console-font": pygame.font.SysFont("Consolas", 25),
+    "console-i":    "#FF2E60", # command icon
+    "console-c":    "#FFFF60", # command text
     "console-t":    "#4FD3E8", # title
     "console-l":    "#6FA8B8", # label
     "console-v":    "#D8F3FF", # value
 }
 
 
-console_info = { "lines": [ "$<c$info", "$<t$PC Name", "$<l$-------", "$<l$Model:$>v$4800X" ], }
-console_tag  = re.compile(r"\$([<^>])([cvlt])\$")
-
+console_info = { "lines": [ "$<i$>$<c$info", "$^t$PC Name", "$^l$-------", "$<l$Model:$>v$4800X" ], }
+console_tag  = re.compile(r"\$([<^>])([cvlti])\$")
 
 running = True
 while running:
@@ -32,19 +32,35 @@ while running:
     console = pygame.draw.rect(window, settings["border"], (outside.x + 10, outside.y + 10, (outside.w - 20) // 4, (outside.h - 20) * (2/3)), 5)
 
     x, y = 40, 40
-    for line in console_info["lines"]:
-        parts = console_tag.split(line)
+    for raw_line in console_info["lines"]:
+        # Create ["", "<", "i", ">", ...]
+        parts = console_tag.split(raw_line)
 
-        segments = []
+        # Group to [["<", "i", ">"], ["<", "c", "info"]]
+        line = []
         for i in range(1, len(parts), 3):
-            align, type_, text = parts[i], parts[i + 1], parts[i + 2]
-            segments.append((align, type_, text))
+            line.append([parts[i], parts[i+1], parts[i+2]])
 
-        for align, type_, text in segments:
-            # surf = settings["console-font"].render(text, True, settings["console-" + type_])
-            print(f"align={align} type={type_} text={text!r}")
+        x = 40
+        max_height = 0
+        for align, color, text in line:
+            text_surf = settings["console-font"].render(text, True, settings["console-"+color])
 
-    quit()
+            max_height = max(text_surf.get_height(), max_height)
+
+            match align:
+                case "^":
+                    x = (console.w - text_surf.get_width()) // 2
+                case ">":
+                    x = (console.w - 10 - 40 - text_surf.get_width())
+
+            if color == "i": # icon is treated as seperate
+                x = 40 - text_surf.get_width()
+
+            window.blit(text_surf, (console.x+x, console.y+y))
+            x += text_surf.get_width() + 10
+
+        y += max_height
 
     pygame.display.update()
 
