@@ -2,10 +2,12 @@ import pygame
 import re
 import math
 
-pygame.font.init()
+from settings import settings
+
+pygame.init()
 
 window = pygame.display.set_mode((1280, 720))
-
+'''
 settings = {
     "background":   "#05080D",
     "border":       "#0E2A35",
@@ -50,6 +52,15 @@ flux1_grid = [
     1, 1, 1, 0,
     0, 0, 0, 0
 ]
+
+flux2_grid = [
+    1, 0, 0, 0,
+    1, 0, 1, 0,
+    1, 1, 0, 0,
+    0, 0, 0, 0
+]
+
+last_step = pygame.time.get_ticks()
 
 running = True
 while running:
@@ -102,42 +113,40 @@ while running:
     )
     pygame.draw.polygon(window, settings['border'], flux1_points, width=2)
 
+    now = pygame.time.get_ticks()
+    step_due = (now - last_step) >= 250
+    if step_due:
+        last_step = now
+
     snap = list(flux1_grid)
-for idx, point in enumerate(snap):
-    col = idx % 4
-    row = idx // 4
+    for idx, point in enumerate(snap):
+        col = idx % 4
+        row = idx // 4
 
-    # Drawing logic remains exactly the same
-    pygame.draw.rect(
-        window, 
-        settings["border"], 
-        [flux.x + 10 + (col * 10), flux.y + 10 + (row * 10), 10, 10], 
-        width=2 if point == 0 else 0
-    )
+        # Drawing logic remains exactly the same
+        pygame.draw.rect(
+            window, 
+            settings["border"], 
+            [flux.x + 10 + (col * 10), flux.y + 10 + (row * 10), 10, 10], 
+            width=2 if point == 0 else 0
+        )
 
-    alive = 0
+        # Count live neighbours, wrapping around the edges (torus)
+        alive = 0
+        for d_row in (-1, 0, 1):
+            for d_col in (-1, 0, 1):
+                if d_row == 0 and d_col == 0:
+                    continue
+                n_row = (row + d_row) % 4
+                n_col = (col + d_col) % 4
+                alive += snap[n_row * 4 + n_col]
 
-    has_left   = (idx % 4) != 0
-    has_right  = (idx % 4) != 3
-    has_top    = idx >= 4
-    has_bottom = idx < 12
-
-    # --- CRITICAL CHANGE: Read from 'snap' instead of 'flux1_grid' ---
-    if has_top:    alive += snap[idx - 4]
-    if has_bottom: alive += snap[idx + 4]
-    if has_left:   alive += snap[idx - 1]
-    if has_right:  alive += snap[idx + 1]
-
-    if has_top and has_left:     alive += snap[idx - 5]
-    if has_top and has_right:    alive += snap[idx - 3]
-    if has_bottom and has_left:  alive += snap[idx + 3]
-    if has_bottom and has_right: alive += snap[idx + 5]
-
-    # --- CRITICAL CHANGE: Explicitly update 'flux1_grid' for all cases ---
-    if point == 1:
-        flux1_grid[idx] = 1 if alive in (2, 3) else 0
-    else:
-        flux1_grid[idx] = 1 if alive == 3 else 0
+        # --- CRITICAL CHANGE: Explicitly update 'flux1_grid' for all cases ---
+        if step_due:
+            if point == 1:
+                flux1_grid[idx] = 1 if alive in (2, 3) else 0
+            else:
+                flux1_grid[idx] = 1 if alive == 3 else 0
 
     flux2_points = get_octa_points(
         (flux.x + flux.w + (-flux.height * 0.4), flux.y + (flux.height // 2)),
@@ -145,6 +154,41 @@ for idx, point in enumerate(snap):
     )
     pygame.draw.polygon(window, settings['border'], flux2_points, width=2)
 
+    snap = list(flux2_grid)
+    for idx, point in enumerate(snap):
+        col = idx % 4
+        row = idx // 4
+
+        # Drawing logic remains exactly the same
+        pygame.draw.rect(
+            window, 
+            settings["border"], 
+            [flux.x + flux.w + (-flux.height * 0.4) + 10 + (col * 10), flux.y + 10 + (row * 10), 10, 10], 
+            width=2 if point == 0 else 0
+        )
+
+        # Count live neighbours, wrapping around the edges (torus)
+        alive = 0
+        for d_row in (-1, 0, 1):
+            for d_col in (-1, 0, 1):
+                if d_row == 0 and d_col == 0:
+                    continue
+                n_row = (row + d_row) % 4
+                n_col = (col + d_col) % 4
+                alive += snap[n_row * 4 + n_col]
+
+        # --- CRITICAL CHANGE: Explicitly update 'flux1_grid' for all cases ---
+        if step_due:
+            if point == 1:
+                flux2_grid[idx] = 1 if alive in (2, 3) else 0
+            else:
+                flux2_grid[idx] = 1 if alive == 3 else 0
+'''
+
+
+running: bool = True
+while running:
+    window.fill(settings.background_color)
     pygame.display.update()
 
     for event in pygame.event.get():
