@@ -1,5 +1,6 @@
 import pygame
 import re
+import math
 
 pygame.font.init()
 
@@ -18,8 +19,37 @@ settings = {
 }
 
 
-console_info = { "lines": [ "$<i$>$<c$info", "$^t$PC Name", "$^l$-------", "$<l$Model:$>v$4800X" ], }
+def console_command_info():
+    return []
+
+
+def get_octa_points(center, radius):
+    points = []
+    cx, cy = center
+    
+    angle_step = math.pi / 4     
+    for i in range(8):
+        angle = i * angle_step
+        x = cx + radius * math.cos(angle)
+        y = cy + radius * math.sin(angle)
+        points.append([x, y])
+        
+    return points
+
+console_info = { 
+    "lines": [ "$<i$>" ], 
+    "commands": {
+        "info": console_command_info
+    } 
+}
 console_tag  = re.compile(r"\$([<^>])([cvlti])\$")
+
+flux1_grid = [
+    0, 1, 0, 0,
+    0, 0, 1, 0,
+    1, 1, 1, 0,
+    0, 0, 0, 0
+]
 
 running = True
 while running:
@@ -31,6 +61,7 @@ while running:
     # console
     console = pygame.draw.rect(window, settings["border"], (outside.x + 10, outside.y + 10, (outside.w - 20) // 4, (outside.h - 20) * (2/3)), 5)
 
+    #$<t$val"
     x, y = 40, 40
     for raw_line in console_info["lines"]:
         # Create ["", "<", "i", ">", ...]
@@ -61,6 +92,58 @@ while running:
             x += text_surf.get_width() + 10
 
         y += max_height
+
+    # flux
+    flux = pygame.draw.rect(window, settings["border"], (outside.x + 10, console.h + console.y + 5, (outside.w - 20) // 4, (outside.h - 30) * (1/3)), 5)
+    
+    flux1_points = get_octa_points(
+        (flux.x + (flux.width // 4), flux.y + (flux.height // 2)),
+        flux.height * 0.3
+    )
+    pygame.draw.polygon(window, settings['border'], flux1_points, width=2)
+
+    snap = list(flux1_grid)
+for idx, point in enumerate(snap):
+    col = idx % 4
+    row = idx // 4
+
+    # Drawing logic remains exactly the same
+    pygame.draw.rect(
+        window, 
+        settings["border"], 
+        [flux.x + 10 + (col * 10), flux.y + 10 + (row * 10), 10, 10], 
+        width=2 if point == 0 else 0
+    )
+
+    alive = 0
+
+    has_left   = (idx % 4) != 0
+    has_right  = (idx % 4) != 3
+    has_top    = idx >= 4
+    has_bottom = idx < 12
+
+    # --- CRITICAL CHANGE: Read from 'snap' instead of 'flux1_grid' ---
+    if has_top:    alive += snap[idx - 4]
+    if has_bottom: alive += snap[idx + 4]
+    if has_left:   alive += snap[idx - 1]
+    if has_right:  alive += snap[idx + 1]
+
+    if has_top and has_left:     alive += snap[idx - 5]
+    if has_top and has_right:    alive += snap[idx - 3]
+    if has_bottom and has_left:  alive += snap[idx + 3]
+    if has_bottom and has_right: alive += snap[idx + 5]
+
+    # --- CRITICAL CHANGE: Explicitly update 'flux1_grid' for all cases ---
+    if point == 1:
+        flux1_grid[idx] = 1 if alive in (2, 3) else 0
+    else:
+        flux1_grid[idx] = 1 if alive == 3 else 0
+
+    flux2_points = get_octa_points(
+        (flux.x + flux.w + (-flux.height * 0.4), flux.y + (flux.height // 2)),
+        flux.height * 0.3
+    )
+    pygame.draw.polygon(window, settings['border'], flux2_points, width=2)
 
     pygame.display.update()
 
