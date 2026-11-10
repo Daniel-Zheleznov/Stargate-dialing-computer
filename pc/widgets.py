@@ -6,7 +6,7 @@ class Widget:
         self.provided_rect = provided_rect
         self.draw_border = draw_border
 
-    def update(self, deltatime):
+    def update(self, deltatime_in_ms):
         pass
 
     def draw(self, surface):
@@ -19,7 +19,7 @@ class ConsoleWidget(Widget):
         
         self.settings.console_font = pygame.font.SysFont("bauhaus93", 18)
         
-    def update(self, deltatime):
+    def update(self, deltatime_in_ms):
         pass
 
     def draw(self, surface: pygame.Surface):
@@ -32,7 +32,7 @@ class FluxControllerWidget(Widget):
         
         self.settings.console_font = pygame.font.SysFont("bauhaus93", 18)
         
-    def update(self, deltatime):
+    def update(self, deltatime_in_ms):
         pass
 
     def draw(self, surface: pygame.Surface):
@@ -45,7 +45,7 @@ class StatusBarWidget(Widget):
         
         self.settings.console_font = pygame.font.SysFont("bauhaus93", 18)
         
-    def update(self, deltatime):
+    def update(self, deltatime_in_ms):
         pass
 
     def draw(self, surface: pygame.Surface):
@@ -56,10 +56,27 @@ class StargateWidget(Widget):
     def __init__(self, settings, provided_rect):
         super().__init__(settings, provided_rect, False)
 
-        self.img = pygame.image.load("C:\\Users\\thinkstation\\Desktop\\stargate-inner-ring.png")
-        
-    def update(self, deltatime):
+        self.images = [
+            pygame.image.load("assets\\stargate.png"),
+            pygame.image.load("assets\\stargate-inner-ring.png"),
+
+            pygame.image.load("assets\\stargate-dialing-progress-1.png"),
+            pygame.image.load("assets\\stargate-dialing-progress-2.png"),
+            pygame.image.load("assets\\stargate-dialing-progress-3.png"),
+        ]
+
+        self.angle = 0
+        self.image_index = 0
+
+    def update(self, deltatime_in_ms):
         pass
 
     def draw(self, surface: pygame.Surface):
-        surface.blit(self.img, self.provided_rect.topleft)
+        inner_temp = pygame.transform.rotozoom(self.images[1], self.angle, 1)
+        surface.blit(inner_temp, [
+            self.provided_rect.x + ((self.provided_rect.width - inner_temp.get_width()) // 2),
+            self.provided_rect.y + ((self.provided_rect.height - inner_temp.get_height()) // 2)
+        ])
+
+        outer_temp = self.images[self.image_index]
+        surface.blit(outer_temp, self.provided_rect.topleft)

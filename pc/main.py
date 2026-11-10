@@ -19,6 +19,7 @@ desktop_size = [
 ]
 window = pygame.display.set_mode((1280, 720))
 sdl_window = Window.from_display_module()
+clock = pygame.time.Clock()
 
 def toggle_fullscreen():
     global window
@@ -73,7 +74,11 @@ widgets = [
 canvas = pygame.Surface((1280, 720))
 
 running: bool = True
+deltatime = 0
+start = 0
 while running:
+    start = pygame.time.get_ticks()
+
     canvas.fill(settings.background_color)
     
     pygame.draw.rect(canvas, settings.border_color, outside_border, settings.border_width)
@@ -82,10 +87,13 @@ while running:
         if widget.draw_border:
             pygame.draw.rect(canvas, settings.border_color, widget.provided_rect, settings.border_width)
 
+        widget.update(deltatime)
         widget.draw(canvas)
 
     screen = pygame.display.get_surface()
     screen.blit(pygame.transform.scale(canvas, screen.get_size()), (0, 0))
+
+    clock.tick()
     pygame.display.update()
 
     for event in pygame.event.get():
@@ -101,4 +109,6 @@ while running:
 
         if event.type == pygame.QUIT:
             running = False
+
+    deltatime = pygame.time.get_ticks() - start
 
