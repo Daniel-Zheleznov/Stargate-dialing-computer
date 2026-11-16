@@ -1,4 +1,5 @@
 import pygame
+from PIL import Image
 
 class Widget:
     def __init__(self, settings, provided_rect, draw_border: bool = True):
@@ -58,6 +59,7 @@ class StargateWidget(Widget):
 
         self.elapsed_time = 0
 
+        stargate_inner_img = Image.open("assets\\stargate-inner-ring.png").convert("RGBA")
         self.images = [
             pygame.image.load("assets\\stargate.png"),
             pygame.image.load("assets\\stargate-inner-ring.png"),
@@ -115,11 +117,4 @@ class StargateWidget(Widget):
             self.started = True
 
     def draw(self, surface: pygame.Surface):
-        inner_temp = pygame.transform.rotozoom(self.images[1], self.angle, 1)
-        surface.blit(inner_temp, [
-            self.provided_rect.x + ((self.provided_rect.width - inner_temp.get_width()) // 2),
-            self.provided_rect.y + ((self.provided_rect.height - inner_temp.get_height()) // 2)
-        ])
-
-        outer_temp = self.images[self.image_index]
-        surface.blit(outer_temp, self.provided_rect.topleft)
+        pass
