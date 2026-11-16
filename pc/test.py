@@ -1,5 +1,6 @@
 import pygame
 from PIL import Image
+import math
 
 pygame.init()
 
@@ -10,18 +11,8 @@ clock = pygame.time.Clock()
 inner = pygame.image.load("assets\\stargate-inner-ring.png")
 angle = 0
 
-SWEEP_DEG = 90.0
-SWEEP_FRAMES = 33   # ticks for the sweep
-HOLD_FRAMES = 30    # ticks to hold at 90 degrees
-PERIOD = SWEEP_FRAMES + HOLD_FRAMES
-TICK_RATE = 12      # ticks per second, same as the Flash file
-
-def ring_angle_deg(tick):
-    """Clockwise angle in degrees for a tick count."""
-    tick %= PERIOD
-    if tick < SWEEP_FRAMES:
-        return SWEEP_DEG * tick / SWEEP_FRAMES
-    return SWEEP_DEG
+RING_DX = 178.5 - 182   # ring centre minus image centre, in pixels
+RING_DY = 179.0 - 182
 
 elapsed = 0.0
 running = True
@@ -29,8 +20,16 @@ while running:
 
     window.fill("purple")
 
-    temp = pygame.transform.rotozoom(inner, ring_angle_deg(elapsed * 12), 1)
-    window.blit(temp, temp.get_rect(center=(640, 360)))
+    # temp = pygame.transform.rotozoom(inner, angle, 1)
+    rad = math.radians(angle)
+
+    # ring centre offset from the image centre, rotated the same way as the image (counter-clockwise on screen)
+    rdx = RING_DX * math.cos(rad) + RING_DY * math.sin(rad)
+    rdy = -RING_DX * math.sin(rad) + RING_DY * math.cos(rad)
+
+    temp = pygame.transform.rotate(inner, angle)
+    temp_rect = temp.get_rect(center = (round(640 - rdx), round(360 - rdy)))
+    window.blit(temp, temp_rect)
 
     angle += 5
 
