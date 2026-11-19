@@ -1,5 +1,4 @@
 import pygame
-from PIL import Image
 
 class Widget:
     def __init__(self, settings, provided_rect, draw_border: bool = True):
@@ -59,7 +58,6 @@ class StargateWidget(Widget):
 
         self.elapsed_time = 0
 
-        stargate_inner_img = Image.open("assets\\stargate-inner-ring.png").convert("RGBA")
         self.images = [
             pygame.image.load("assets\\stargate.png"),
             pygame.image.load("assets\\stargate-inner-ring.png"),
@@ -86,35 +84,58 @@ class StargateWidget(Widget):
             pygame.image.load("assets\\stargate-dialing-locked-7.png"),
         ]
 
-        self.angle = 0
-        self.wanted_angle = 0
-        self.image_index = 0
-
+        self.current_angle = 0
+        self.dest = 20 * (360/39)
         self.started = False
 
-    def rotate_to(self, degree: int):
-        self.wanted_angle = degree
-        diff = self.wanted_angle - self.angle
+        self.move_start = None   # angle where the current move began
+        self.move_distance = 0   # shortest signed travel for the current move
+        self.move_progress = 0   # 0..1 through the current move
 
-        if abs(diff) <= 0.1:
-            self.angle = self.wanted_angle
+    def rotate_to(self, degree: float, deltatime) -> bool:
+        # first frame of a move: record where it starts and how far it goes
+        if self.move_start is None:
+            self.move_start = self.current_angle
+            self.move_distance = (degree - self.current_angle + 180) % 360 - 180
+            self.move_progress = 0
+
+        # a move takes 30 seconds regardless of frame rate
+        self.move_progress = min(self.move_progress + deltatime / 3000, 1.0)
+        eased = self.move_progress * self.move_progress * self.move_progress * self.move_progress
+
+        if self.move_progress >= 1.0:
+            self.current_angle = degree % 360
+            self.move_start = None
             return True
 
-        progress = diff / self.wanted_angle
-        step = (1 + (1.70158) * pow(progress - 1, 3) + (1.70158) * pow(progress - 1, 2))
-        self.angle += step if diff > 0 else -step
+        self.current_angle = (self.move_start + self.move_distance * eased) % 360
         return False
 
     def update(self, deltatime_in_ms):
         self.elapsed_time += deltatime_in_ms
-        
-        if self.started == True:            
-            if self.rotate_to(300 * (360 / 39)):
+
+        if self.started == True:
+            if self.rotate_to(self.dest, deltatime_in_ms):
                 self.started = False
                 return
 
+        # set when to start
         if ((self.elapsed_time % 1500) == 0) and self.started == False:
             self.started = True
 
     def draw(self, surface: pygame.Surface):
-        pass
+        inner_ring = pygame.transform.rotozoom(self.images[1], self.current_angle, 1)
+        surface.blit(inner_ring, inner_ring.get_rect(
+            center=(
+                self.provided_rect.x + (self.provided_rect.width // 2), 
+                self.provided_rect.y + (self.provided_rect.height // 2)
+            )
+        ))
+
+        stargate = self.images[0]
+        surface.blit(stargate, stargate.get_rect(
+            center=(
+                self.provided_rect.x + (self.provided_rect.width // 2), 
+                self.provided_rect.y + (self.provided_rect.height // 2)
+            )
+        ))

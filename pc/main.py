@@ -104,8 +104,8 @@ while running:
             if event.key == pygame.K_F11:
                 toggle_fullscreen()
             
-            # else:
-            #     running = False
+            else:
+                running = False
 
         if event.type == pygame.QUIT:
             running = False
