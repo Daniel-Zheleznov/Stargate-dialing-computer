@@ -84,6 +84,13 @@ class StargateWidget(Widget):
             pygame.image.load("assets\\stargate-dialing-locked-7.png"),
         ]
 
+        # pad the inner ring to an even square with its center on the pivot,
+        # so rotation always turns around the same point
+        inner_ring_src = self.images[1]
+        inner_ring = pygame.Surface((366, 366), pygame.SRCALPHA)
+        inner_ring.blit(inner_ring_src, (1, 1))
+        self.images[1] = inner_ring
+
         self.current_angle = 0
         self.dest = 20 * (360/39)
         self.started = False
@@ -101,14 +108,23 @@ class StargateWidget(Widget):
 
         # a move takes 30 seconds regardless of frame rate
         self.move_progress = min(self.move_progress + deltatime / 3000, 1.0)
-        eased = self.move_progress * self.move_progress * self.move_progress * self.move_progress
 
         if self.move_progress >= 1.0:
             self.current_angle = degree % 360
             self.move_start = None
             return True
 
-        self.current_angle = (self.move_start + self.move_distance * eased) % 360
+        # constant speed for the first 80% of the move, then a smooth stop over the last 20%
+        # (speed matches at the join and reaches zero at the target, so there is no abrupt end)
+        t = self.move_progress
+        decel_start = 0.8
+        if t <= decel_start:
+            fraction = t
+        else:
+            u = (t - decel_start) / (1 - decel_start)
+            fraction = decel_start + (1 - decel_start) * (u + u * u - u * u * u)
+
+        self.current_angle = (self.move_start + self.move_distance * fraction) % 360
         return False
 
     def update(self, deltatime_in_ms):
