@@ -21,6 +21,12 @@ window = pygame.display.set_mode((1280, 720))
 sdl_window = Window.from_display_module()
 clock = pygame.time.Clock()
 
+print(f"[Stargate] Desktop resolution: {desktop_size[0]}x{desktop_size[1]}")
+
+gcd = math.gcd(desktop_size[0], desktop_size[1])
+print(f"[Stargate] Aspect ratio: {desktop_size[0] // gcd } / { desktop_size[1] // gcd }")
+
+
 def toggle_fullscreen():
     global window
     if window.get_flags() & pygame.NOFRAME:
@@ -91,7 +97,20 @@ while running:
         widget.draw(canvas)
 
     screen = pygame.display.get_surface()
-    screen.blit(pygame.transform.scale(canvas, screen.get_size()), (0, 0))
+    win_w, win_h = screen.get_size()
+    if (win_w, win_h) == (1280, 720):
+        screen.blit(canvas, (0, 0))
+    else:
+        # Uniform scale preserves 16:9 and keeps 366x366 widgets strictly 1:1
+        scale = min(win_w / 1280, win_h / 720)
+        scaled_w = int(1280 * scale)
+        scaled_h = int(720 * scale)
+        offset_x = (win_w - scaled_w) // 2
+        offset_y = (win_h - scaled_h) // 2
+
+        screen.fill(settings.background_color)  # Blends seamlessly with your background
+        scaled_canvas = pygame.transform.smoothscale(canvas, (scaled_w, scaled_h))
+        screen.blit(scaled_canvas, (offset_x, offset_y))
 
     clock.tick()
     pygame.display.update()
