@@ -1,4 +1,5 @@
 import pygame
+import random
 
 class Widget:
     def __init__(self, settings, provided_rect, draw_border: bool = True):
@@ -93,7 +94,10 @@ class StargateWidget(Widget):
 
         self.current_angle = 0
         self.dest = 20 * (360/39)
-        self.started = False
+        self.gate_status = "idle"
+        self.gate_image = 0
+        self.gate_goto_glyph = 1
+        self.hold_elapsed = 0    # ms spent on the current locked frame
 
         self.move_start = None   # angle where the current move began
         self.move_distance = 0   # shortest signed travel for the current move
@@ -130,14 +134,34 @@ class StargateWidget(Widget):
     def update(self, deltatime_in_ms):
         self.elapsed_time += deltatime_in_ms
 
-        if self.started == True:
-            if self.rotate_to(self.dest, deltatime_in_ms):
-                self.started = False
-                return
+        # change render image for gate and when to start
+        match self.gate_status.lower():
+            case "idle":
+                if ((self.elapsed_time % 1500) == 0):
+                    self.gate_status = "dialing"
+                    self.gate_image = 2
+                    self.gate_goto_glyph = (self.gate_goto_glyph - 1 + random.randint(10, 29)) % 39 + 1
 
-        # set when to start
-        if ((self.elapsed_time % 1500) == 0) and self.started == False:
-            self.started = True
+            case "dialing":
+                if self.gate_image % 2 == 0:
+                    # locking frame: turn the ring, then show the locked frame on arrival
+                    direction = random.choice([-1, 1])
+                    glyph_angle = self.gate_goto_glyph * (360 / 39) * direction
+                    if self.rotate_to(glyph_angle, deltatime_in_ms):
+                        self.gate_image += 1
+                        self.hold_elapsed = 0
+                else:
+                    # locked frame: hold for 1.5 s, then go to the next locking frame
+                    self.hold_elapsed += deltatime_in_ms
+                    if self.hold_elapsed >= 750 and self.gate_image < 15:
+                        self.gate_image += 1
+                        self.gate_goto_glyph = (self.gate_goto_glyph - 1 + random.randint(10, 39)) % 39 + 1
+                    
+                    if self.gate_image >= 15:
+                        self.gate_status = "active"
+
+            case "active":
+                pass
 
     def draw(self, surface: pygame.Surface):
         inner_ring = pygame.transform.rotozoom(self.images[1], self.current_angle, 1)
@@ -148,7 +172,7 @@ class StargateWidget(Widget):
             )
         ))
 
-        stargate = self.images[0]
+        stargate = self.images[self.gate_image]
         surface.blit(stargate, stargate.get_rect(
             center=(
                 self.provided_rect.x + (self.provided_rect.width // 2), 
